@@ -1,12 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  const [tech, setTech] = useState(['ReactJS','ReactNative']);
+  const [tech, setTech] = useState([]);
   const [newTech, setNewTech] = useState('');
 
   function handleAdd () {
     setTech([...tech, newTech]);
+    setNewTech('');
   }
+
+  // componentDidMount
+  useEffect(() => {
+    const storageTech = localStorage.getItem('tech');
+
+    if (storageTech) {
+      setTech(JSON.parse(storageTech));
+    }
+
+    // componentWillMount
+    /* return () => {
+      document.removeEventListener()
+    }; */
+  }, []);
+
+  // componentDidUpdate
+  useEffect(() => {
+    localStorage.setItem('tech', JSON.stringify(tech));
+  }, [tech]);
 
   return (
     <>
